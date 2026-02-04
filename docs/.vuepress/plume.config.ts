@@ -2,9 +2,6 @@
  * 查看以下文档了解主题配置
  * - @see https://theme-plume.vuejs.press/config/intro/ 配置说明
  * - @see https://theme-plume.vuejs.press/config/theme/ 主题配置项
- *
- * 静态 logo 需放在 docs/public/ 下（AgentFlow-01.png、AgentFlow-02.png），
- * 主题会通过 withBase() 自动加上 base，部署到子路径时也能正确加载。
  */
 
 import { defineThemeConfig } from 'vuepress-theme-plume'
