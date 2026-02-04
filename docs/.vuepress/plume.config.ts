@@ -3,19 +3,17 @@
  * - @see https://theme-plume.vuejs.press/config/intro/ 配置说明
  * - @see https://theme-plume.vuejs.press/config/theme/ 主题配置项
  *
- * 注意：logo/avatar 使用带 base 的路径，以便在 GitHub Pages（/AgentFlow-Doc/）下正确加载。
- * 静态文件需放在 docs/public/ 下（如 AgentFlow-01.png、AgentFlow-02.png）。
+ * 静态 logo 需放在 docs/public/ 下（AgentFlow-01.png、AgentFlow-02.png），
+ * 主题会通过 withBase() 自动加上 base，部署到子路径时也能正确加载。
  */
 
 import { defineThemeConfig } from 'vuepress-theme-plume'
 import { enNavbar, zhNavbar } from './navbars/index.js'
 import { enNotes, zhNotes } from './notes/index.js'
 
-const base = '/AgentFlow-Doc/'
-
 export default defineThemeConfig({
-  logo: `${base}AgentFlow-01.png`,
-  logoDark: `${base}AgentFlow-02.png`,
+  logo: '/AgentFlow-01.png',
+  logoDark: '/AgentFlow-02.png',
   appearance: true,
 
   social: [
@@ -25,7 +23,7 @@ export default defineThemeConfig({
   locales: {
     '/en/': {
       profile: {
-        avatar: `${base}AgentFlow-01.png`,
+        avatar: '/AgentFlow-01.png',
         name: 'AgentFlow Documentation',
         description: 'A unified agent execution environment.',
       },
@@ -35,7 +33,7 @@ export default defineThemeConfig({
     },
     '/zh/': {
       profile: {
-        avatar: `${base}AgentFlow-01.png`,
+        avatar: '/AgentFlow-01.png',
         name: 'AgentFlow 中文文档',
         description: '统一的 Agent 执行环境',
       },
