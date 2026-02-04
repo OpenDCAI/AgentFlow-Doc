@@ -98,7 +98,7 @@ permalink: /zh/guide/framework/ # 这个自动生成的是8位码，可以自行
 **若控制台出现 `TypeError: Cannot read properties of undefined (reading 'value')`：**
 
 - 多为主题在 hydration 时访问了尚未就绪的数据。请先确保 **logo 图片** 已放入 `docs/public/`（`AgentFlow-01.png`、`AgentFlow-02.png`），否则 404 可能影响后续脚本执行。
-- 将主题升级到最新后再构建：`npm update vuepress-theme-plume`，然后 `npm run docs:build` 并重新部署。
+- 将主题升级到最新后再构建：`npm update vuepress-theme-plume`，然后 `npm run docs:build -- --clean-cache --clean-temp` 并重新部署。
 - 若仍报错，可到 [vuepress-theme-plume](https://github.com/vuepress/theme-plume) 提 issue，并附上完整报错栈与复现步骤。
 
 当前仓库已配置 `base: '/AgentFlow-Doc/'`，构建出的资源路径均带此前缀，在项目页 `.../AgentFlow-Doc/` 下部署是正确的。

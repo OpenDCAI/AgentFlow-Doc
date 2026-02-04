@@ -20,7 +20,7 @@ export default defineThemeConfig({
   locales: {
     '/en/': {
       profile: {
-        avatar: '/AgentFlow-01.png',
+        // avatar: '/AgentFlow-01.png',
         name: 'AgentFlow Documentation',
         description: 'A unified agent execution environment.',
       },
@@ -30,7 +30,7 @@ export default defineThemeConfig({
     },
     '/zh/': {
       profile: {
-        avatar: '/AgentFlow-01.png',
+        // avatar: '/AgentFlow-01.png',
         name: 'AgentFlow 中文文档',
         description: '统一的 Agent 执行环境',
       },
