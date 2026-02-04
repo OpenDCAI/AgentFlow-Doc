@@ -51,4 +51,3 @@ permalink: /zh/guide/framework/ # 这个自动生成的是8位码，可以自行
 
 - [vuepress](https://vuepress.vuejs.org/)
 - [vuepress-theme-plume](https://theme-plume.vuejs.press/)
-
