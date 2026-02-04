@@ -5,7 +5,7 @@ config:
   -
     type: hero
     full: true
-    background: tint-plate
+    background: bg-gradient
     hero:
       name: AgentFlow
       tagline: Agent 数据合成的统一执行环境

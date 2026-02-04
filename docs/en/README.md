@@ -5,7 +5,7 @@ config:
   -
     type: hero
     full: true
-    background: tint-plate
+    background: bg-gradient
     hero:
       name: AgentFlow
       tagline: Unified Execution Environment for Agent Data Synthesis
