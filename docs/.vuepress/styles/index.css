@@ -1,10 +1,8 @@
 /* Enhanced animated gradient background for homepage */
-/* Target both bg-gradient and tint-plate backgrounds to ensure compatibility */
+/* Target elements with bg-gradient background attribute */
 .vp-home-hero[data-background="bg-gradient"],
 .plume-home-hero[data-background="bg-gradient"],
-.home-hero[data-background="bg-gradient"],
-.vp-home-hero,
-.plume-home-hero {
+.home-hero[data-background="bg-gradient"] {
   background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe, #00f2fe, #43e97b, #fa709a, #fee140, #667eea) !important;
   background-size: 400% 400% !important;
   animation: gradientAnimation 15s ease infinite !important;
@@ -23,8 +21,9 @@
 }
 
 /* Add some floating particles effect for extra visual appeal */
-.vp-home-hero::before,
-.plume-home-hero::before {
+.vp-home-hero[data-background="bg-gradient"]::before,
+.plume-home-hero[data-background="bg-gradient"]::before,
+.home-hero[data-background="bg-gradient"]::before {
   content: '';
   position: absolute;
   top: 0;
@@ -51,12 +50,15 @@
 }
 
 /* Ensure text is readable on colorful background */
-.vp-home-hero .vp-home-hero-name,
-.vp-home-hero .vp-home-hero-text,
-.vp-home-hero .vp-home-hero-tagline,
-.plume-home-hero .plume-home-hero-name,
-.plume-home-hero .plume-home-hero-text,
-.plume-home-hero .plume-home-hero-tagline {
+.vp-home-hero[data-background="bg-gradient"] .vp-home-hero-name,
+.vp-home-hero[data-background="bg-gradient"] .vp-home-hero-text,
+.vp-home-hero[data-background="bg-gradient"] .vp-home-hero-tagline,
+.plume-home-hero[data-background="bg-gradient"] .plume-home-hero-name,
+.plume-home-hero[data-background="bg-gradient"] .plume-home-hero-text,
+.plume-home-hero[data-background="bg-gradient"] .plume-home-hero-tagline,
+.home-hero[data-background="bg-gradient"] .home-hero-name,
+.home-hero[data-background="bg-gradient"] .home-hero-text,
+.home-hero[data-background="bg-gradient"] .home-hero-tagline {
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
   position: relative;
   z-index: 1;
