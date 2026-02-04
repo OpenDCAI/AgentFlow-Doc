@@ -53,14 +53,44 @@ permalink: /zh/guide/framework/ # 这个自动生成的是8位码，可以自行
 
 若部署后首页也看不到动效，可按下面排查：
 
+### ⚠️ 最常见问题：缺少 logo 图片文件
+
+**现象：** 首页没有彩色背景动效，或者控制台有错误
+
+**原因：** 项目配置文件引用了 logo 图片，但 `docs/public/` 目录下缺少这些文件
+
+**解决方法：**
+
+1. 准备两个 logo 图片文件：
+   - `AgentFlow-01.png`（浅色模式，建议 200x200px 以上）
+   - `AgentFlow-02.png`（深色模式，建议 200x200px 以上）
+
+2. 将图片放入 `docs/public/` 目录
+
+3. 重新构建并部署：
+   ```bash
+   npm run docs:build
+   git add docs/public/
+   git commit -m "Add logo images"
+   git push
+   ```
+
+**临时解决方案（如果暂时没有 logo 图片）：**
+
+可以暂时注释掉配置文件中的 logo 引用：
+- 编辑 `docs/.vuepress/plume.config.ts`，注释掉第 12-13 行的 `logo` 和 `logoDark`
+- 编辑 `docs/.vuepress/config.ts`，注释掉第 28-30 行的 `head` 配置
+
+### 其他排查步骤
+
 1. **确认访问的是首页**  
    打开 `https://<你的用户名>.github.io/AgentFlow-Doc/`，会自动跳到 `/zh/` 或 `/en/`，该页即为带动态背景的首页。
 
 2. **确认 GitHub Pages 来源**  
    仓库 **Settings → Pages → Build and deployment**：Source 选 **Deploy from a branch**，Branch 选 **gh-pages**，目录选 **/ (root)**。
 
-3. **看是否有脚本报错或 404**  
-   用浏览器打开首页 → F12 打开开发者工具 → 看 **Console** 是否有报错，**Network** 里是否有红色的 404（尤其是 `.js` 文件）。若有 404，多半是 base 或部署路径不对。
+3. **检查浏览器控制台是否有报错或 404**  
+   用浏览器打开首页 → F12 打开开发者工具 → 看 **Console** 是否有报错，**Network** 里是否有红色的 404（尤其是 `.js` 和 `.png` 文件）。
 
 4. **清缓存再试**  
    使用无痕/隐私模式打开首页，或强制刷新（Ctrl+Shift+R / Cmd+Shift+R）。
@@ -68,12 +98,8 @@ permalink: /zh/guide/framework/ # 这个自动生成的是8位码，可以自行
 **若控制台出现 `TypeError: Cannot read properties of undefined (reading 'value')`：**
 
 - 多为主题在 hydration 时访问了尚未就绪的数据。请先确保 **logo 图片** 已放入 `docs/public/`（`AgentFlow-01.png`、`AgentFlow-02.png`），否则 404 可能影响后续脚本执行。
-- 将主题升级到最新后再构建：`npm update vuepress-theme-plume`，然后 `npm run docs:build -- --clean-cache --clean-temp` 并重新部署。
+- 将主题升级到最新后再构建：`npm update vuepress-theme-plume`，然后 `npm run docs:build` 并重新部署。
 - 若仍报错，可到 [vuepress-theme-plume](https://github.com/vuepress/theme-plume) 提 issue，并附上完整报错栈与复现步骤。
-
-**图片 404（AgentFlow-01.png / AgentFlow-02.png）：**
-
-- 将这两个 logo 文件放到 **`docs/public/`** 目录下，再重新构建并部署。详见 `docs/public/README.md`。
 
 当前仓库已配置 `base: '/AgentFlow-Doc/'`，构建出的资源路径均带此前缀，在项目页 `.../AgentFlow-Doc/` 下部署是正确的。
 
