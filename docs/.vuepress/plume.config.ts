@@ -9,8 +9,8 @@ import { enNavbar, zhNavbar } from './navbars/index.js'
 import { enNotes, zhNotes } from './notes/index.js'
 
 export default defineThemeConfig({
-  logo: '/AgentFlow-01.png',
-  logoDark: '/AgentFlow-02.png',
+  // logo: '/AgentFlow-01.png',
+  // logoDark: '/AgentFlow-02.png',
   appearance: true,
 
   social: [

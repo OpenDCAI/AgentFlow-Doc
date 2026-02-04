@@ -25,9 +25,9 @@ export default defineUserConfig({
     },
   },
 
-  head: [
-    ['link', { rel: 'icon', type: 'image/png', href: '/AgentFlow-Doc/AgentFlow-01.png' }],
-  ],
+  // head: [
+  //   ['link', { rel: 'icon', type: 'image/png', href: '/AgentFlow-Doc/AgentFlow-01.png' }],
+  // ],
 
   bundler: viteBundler(),
   shouldPrefetch: false,
