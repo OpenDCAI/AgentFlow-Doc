@@ -16,6 +16,24 @@ export const Guide: ThemeNote = defineNoteConfig({
             ],
         },
         {
+            text: 'Rollout',
+            collapsed: false,
+            icon: 'carbon:play-filled-alt',
+            prefix: 'rollout',
+            items: [
+                'overview',
+            ],
+        },
+        {
+            text: 'Synthesis',
+            collapsed: false,
+            icon: 'carbon:data-enrichment',
+            prefix: 'synthesis',
+            items: [
+                'overview',
+            ],
+        },
+        {
             text: 'Quick Start',
             collapsed: false,
             icon: 'carbon:rocket',

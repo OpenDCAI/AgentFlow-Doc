@@ -16,6 +16,24 @@ export const Guide: ThemeNote = defineNoteConfig({
             ],
         },
         {
+            text: 'Rollout 推理评测',
+            collapsed: false,
+            icon: 'carbon:play-filled-alt',
+            prefix: 'rollout',
+            items: [
+                'overview',
+            ],
+        },
+        {
+            text: 'Synthesis 数据合成',
+            collapsed: false,
+            icon: 'carbon:data-enrichment',
+            prefix: 'synthesis',
+            items: [
+                'overview',
+            ],
+        },
+        {
             text: '快速开始',
             collapsed: false,
             icon: 'carbon:rocket',

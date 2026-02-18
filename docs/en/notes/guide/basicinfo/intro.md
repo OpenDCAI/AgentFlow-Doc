@@ -1,122 +1,136 @@
 ---
 title: Introduction
 createTime: 2025/02/04 10:00:00
-icon: mdi:tooltip-text-outline
+icon: mdi:tooloutline
 permalink: /en/guide/intro/
 ---
 
-# AgentFlow Sandbox Introduction
+# Introduction
 
-AgentFlow Sandbox is a unified execution environment designed specifically for **Agent Data Synthesis**. It provides standardized tool invocation and environment interaction capabilities for large-scale Agent trajectory data synthesis, supporting VM desktop automation, RAG retrieval, command line interaction, web automation, and more.
+**AgentFlow** is the **first unified Agent data synthesis framework** that generates high-quality training and evaluation data across heterogeneous agent environments -- including RAG, MM-Doc, Deep Research, GUI, Text2SQL, Data Analysis, Embodied Agents, and more.
 
-## Why AgentFlow?
+It provides a unified, extensible, all-in-one environment for synthesizing agent trajectories, reasoning traces, tool interactions, and environment feedback. AgentFlow also explores the underlying mechanisms of agent data synthesis and model training, enabling the development of industrial-grade agentic foundation models that operate seamlessly across domains.
 
-In Agent data synthesis scenarios, we need:
+> **One framework. All agent worlds.**
 
-- **Standardized tool invocation interface**: Unified calling method for different types of tools
-- **Complete trajectory recording**: Automatically record every interaction between Agent and environment
-- **Large-scale parallel execution**: Support multi-worker concurrency to improve synthesis efficiency
-- **Resource isolation and management**: Independent execution environment for each worker
-- **High reliability**: Complete error handling and resource cleanup mechanisms
+## Core Highlights
 
-AgentFlow is designed to solve these problems.
+### Unified Agent Data Synthesis Paradigm
 
-## Core Features
+AgentFlow synthesizes complex agent training data through a three-stage pipeline:
 
-### 🤖 Agent Data Synthesis
+1. **Trajectory Sampling** -- An LLM-driven agent iteratively explores a sandbox environment starting from seed inputs. At each step it proposes a tool call, executes it, and records the observation, building a branching trajectory tree with concurrent expansion and action de-duplication.
+2. **Trajectory Selection** -- All root-to-leaf paths are scored by depth, information richness, and tool diversity, then selected with configurable strategies to ensure high-quality content.
+3. **QA Synthesis** -- For each selected path the LLM generates a multi-hop, factoid QA pair grounded in the collected observations, with built-in quality checks.
 
-AgentFlow is optimized for Agent trajectory data synthesis:
+With just a few lines of code you can synthesize complex agent training data across any supported environment.
 
-- **Standardized response format**: Unified JSON response for easy data collection
-- **Complete trajectory recording**: Automatically records tool calls, parameters, return values, execution time
-- **Batch execution support**: Supports batch tool calls to improve synthesis efficiency
-- **Worker isolation**: Independent execution environment for each synthesis task
+### All-in-One Sandbox Environment
 
-```python
-# Typical Agent data synthesis workflow
-async with Sandbox() as sandbox:
-    await sandbox.create_session("vm")
-    
-    # Agent decision -> Tool call -> Record trajectory
-    result = await sandbox.execute("vm:screenshot", {})
-    trajectory.append({
-        "action": "vm:screenshot",
-        "observation": result["data"],
-        "metadata": result["meta"]
-    })
-```
-
-### 🖥️ Multiple Resource Backends
-
-AgentFlow supports various types of backend resources:
+The Sandbox module provides standardized tool invocation and environment interaction for large-scale Agent trajectory data synthesis. It supports multiple resource backends through a modular design:
 
 | Backend | Type | Description |
 |---------|------|-------------|
-| **VM** | Session Resource | Virtual machine desktop automation |
-| **RAG** | Shared Resource | Document retrieval service |
-| **Bash** | Session Resource | Command line interaction |
-| **Browser** | Hybrid Resource | Web automation |
-| **Code Executor** | Session Resource | Code sandbox execution |
+| **VM** | Session Resource | Virtual machine desktop automation (screenshot, click, type, scroll) |
+| **RAG** | Shared Resource | Document retrieval and knowledge base search |
+| **Bash** | Session Resource | Command line interaction and shell execution |
+| **Browser** | Hybrid Resource | Web page automation and navigation |
+| **Code Executor** | Session Resource | Sandboxed code execution for Python/SQL/data analysis |
+| **WebSearch** | API Tool | Web search via Serper API and page visit via Jina Reader |
 
-### 📦 Session Management
+Each backend provides complete lifecycle management (warmup, initialize, cleanup, shutdown) and supports multi-worker parallel execution with full resource isolation.
 
-Flexible session lifecycle management:
+### Rollout Inference & Evaluation
 
-- **Explicit Session**: Created via `create_session()`, can be reused multiple times
-- **Temporary Session**: Automatically created during execution, destroyed immediately after use
+The Rollout module drives agent execution on benchmarks and real-world tasks. It provides:
 
-### 🌐 HTTP API
+- **Configurable agent execution** -- Set model, tools, system prompts, max turns, and parallel workers through a single JSON/YAML config file.
+- **Built-in evaluation** -- Supports multiple metrics including `exact_match`, `f1_score`, `contains_answer`, `numeric_match`, `similarity`, and `llm_judgement`.
+- **Trajectory recording** -- Full conversation trajectories are saved for analysis and debugging.
+- **Quick single-question mode** -- Run a single question through an agent with `quick_rollout()` for rapid testing.
 
-Standardized RESTful API interface:
+### Extensible Architecture
 
-```python
-# Execute tool
-POST /execute
-{
-    "worker_id": "sandbox_xxx",
-    "action": "vm:screenshot",
-    "params": {}
-}
+AgentFlow is designed for extensibility at every layer:
 
-# Create Session
-POST /session/create
-{
-    "worker_id": "sandbox_xxx",
-    "resource_type": "vm",
-    "config": {"screen_size": [1920, 1080]}
-}
-```
-
-### 🔌 Extensible Architecture
-
-Two extension methods:
-
-- **Lightweight API Tools**: Using `@register_api_tool` decorator
-- **Heavyweight Backend**: Inheriting `Backend` base class
+- **Lightweight API Tools** -- Register new tools with the `@register_api_tool` decorator for quick integration.
+- **Heavyweight Backends** -- Inherit from the `Backend` base class to add full-lifecycle resource management.
+- **Configurable Pipelines** -- Both Synthesis and Rollout pipelines are driven by dataclass-based configs (`SynthesisConfig`, `RolloutConfig`) that support JSON and YAML formats.
 
 ## Quick Start
 
+### Data Synthesis
+
+Synthesize QA training data from seed inputs using the three-stage pipeline:
+
+```python
+from synthesis import synthesize
+
+synthesize(config_path="configs/synthesis/web_config.json")
+```
+
+The `SynthesisConfig` controls trajectory sampling parameters (`max_depth`, `branching_factor`, `depth_threshold`), trajectory selection parameters (`min_depth`, `max_selected_traj`, `path_similarity_threshold`), model settings, and sandbox connection.
+
+### Rollout Inference & Evaluation
+
+Run agent inference on a benchmark dataset and evaluate the results:
+
+```python
+from rollout import rollout
+
+results = rollout(
+    config_path="configs/rollout/rag_benchmark.json",
+    data_path="benchmark/benchmark.jsonl",
+    evaluate=True,
+    metric="f1_score"
+)
+```
+
+For quick single-question testing:
+
+```python
+from rollout import quick_rollout
+
+result = quick_rollout(
+    "What is the capital of France?",
+    tools=["rag:search"],
+    model_name="gpt-4.1-2025-04-14",
+    sandbox_url="http://127.0.0.1:18890"
+)
+print(result["answer"])
+```
+
+### Sandbox Environment
+
+Launch the sandbox server and interact with backends programmatically:
+
+```bash
+./sandbox-server.sh --config configs/sandbox-server/web_config.json \
+    --port 18890 \
+    --host 0.0.0.0
+```
+
 ```python
 from sandbox import Sandbox
+import asyncio
 
 async def main():
     async with Sandbox() as sandbox:
-        # Create VM Session
+        # Create a VM session
         await sandbox.create_session("vm")
-        
-        # Take screenshot
+
+        # Take a screenshot
         result = await sandbox.execute("vm:screenshot", {})
         print(result)
-        
-        # Click
+
+        # Perform a click action
         await sandbox.execute("vm:click", {"x": 100, "y": 200})
 
-import asyncio
 asyncio.run(main())
 ```
 
 ## Next Steps
 
-- [Architecture](./architecture.md) - Learn about system architecture
-- [Installation Guide](../quickstart/install.md) - Start installation
-- [First Sandbox](../quickstart/first_sandbox.md) - Quick start tutorial
+- [Architecture Design](./architecture.md) -- Learn about the system architecture of all three modules
+- [Installation Guide](../quickstart/install.md) -- Set up your environment
+- [First Sandbox](../quickstart/first_sandbox.md) -- Quick start tutorial
