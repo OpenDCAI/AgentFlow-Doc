@@ -22,7 +22,7 @@ config:
         -
           theme: alt
           text: Github →
-          link: https://github.com/yourorg/agentflow_sandbox
+          link: https://github.com/OpenDCAI/AgentFlow
   -
     type: features
     features:

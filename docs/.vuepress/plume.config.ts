@@ -14,7 +14,7 @@ export default defineThemeConfig({
   appearance: true,
 
   social: [
-    { icon: 'github', link: 'https://github.com/yourorg/agentflow_sandbox' },
+    { icon: 'github', link: 'https://github.com/OpenDCAI/AgentFlow' },
   ],
 
   locales: {
